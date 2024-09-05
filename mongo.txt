@@ -1,0 +1,4 @@
+mongodb+srv://adrianfmart:<db_password>@enta-calendar-db.g7zaw.mongodb.net/
+
+jcmE1zzr7J9U2LMX
+mern_user
