@@ -1,12 +1,13 @@
 const puppeter = require('puppeteer')
 
-async function getHolidays() {
-    const browser = await puppeter.launch({headless:true});
-    const page = await browser.newPage();
-    console.log('Ingresando a feriados Argentina..')
-    await page.goto('https://www.argentina.gob.ar/interior/feriados-nacionales-2024');
-
+async function getHolidays(year) {
+    
+    
     try {
+        const browser = await puppeter.launch({headless:true});
+        const page = await browser.newPage();
+        console.log('Ingresando a feriados Argentina..')
+        await page.goto('https://www.argentina.gob.ar/interior/feriados-nacionales-' + year);
         // Espera a que el div con id 'mEnero' esté presente en el DOM
         await page.waitForSelector('#mEnero', {timeout: 5000});
 
@@ -63,7 +64,6 @@ async function getHolidays() {
             mDiciembre: "12"
         };
 
-        const year = 2024;
         let dates = [];
 
         for (const key in allTextsByDivId) {
@@ -83,9 +83,9 @@ async function getHolidays() {
         function getWeekends(year) {
             let weekends = [];
             let date = new Date(year, 0, 1); // Empieza el 1 de enero del año dado
-        
+            console.log(date)
             // Recorre cada día del año
-            while (date.getFullYear() === year) {
+            while (date.getFullYear() == year) {
             // Si es sábado (6) o domingo (0)
             if (date.getDay() === 0 || date.getDay() === 6) {
                 // Formatear la fecha como dd/mm/yyyy
@@ -98,23 +98,20 @@ async function getHolidays() {
             return weekends;
         }
 
-        const weekends = getWeekends(2024);
+        const weekends = getWeekends(year);
 
-        // Agregar el 1 de enero del año siguiente (2025)
-        const nextYearNewYear = '01/01/2025';
+        // Agregar el 1 de enero del año siguiente
+        const nextYearNewYear = `01/01/${Number(year) + 1}`;
 
         // Concatenar todas las fechas
         const allHolidays = [...dates, ...weekends, nextYearNewYear]; 
 
-        // Imprimir en formato JSON
-        const result = { holidays: allHolidays };
-
         await browser.close();
-        return result;
+        return {allHolidays, error:''};
         
       } catch (error) {
         // Si el tiempo se agota y el elemento no aparece, se captura el error
-        console.log('No se encontró el elemento dentro del tiempo establecido.');
+        return {result:[], error};
       }
 }
 

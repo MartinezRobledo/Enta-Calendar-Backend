@@ -8,12 +8,16 @@ const { check } = require('express-validator');
 const { isDate } = require('../helpers/isDate');
 const { validarCampos } = require('../middlewares/validar-campos');
 const { validarJWT } = require('../middlewares/validar-jwt');
-const { getEventos, crearEvento, actualizarEvento, eliminarEvento, obtenerFeriados } = require('../controllers/events');
+const { getEventos, crearEvento, actualizarEvento, eliminarEvento } = require('../controllers/events');
+const { obtenerFeriados } = require('../controllers/holidays');
 
 const router = Router();
 
-// Obtener feriados Argentina
-router.get('/getferiados', obtenerFeriados)
+// Obtener feriados Argentina Todos los años
+// router.get('/getferiados', obtenerFeriados)
+
+// Obtener feriados Argentina (Año)
+router.get('/getferiados/:id', obtenerFeriados)
 
 // Todas tienes que pasar por la validación del JWT
 router.use( validarJWT );
