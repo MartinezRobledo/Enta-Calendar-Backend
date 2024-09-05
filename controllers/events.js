@@ -1,5 +1,6 @@
 const { response } = require('express');
 const Evento = require('../models/Evento');
+const { getHolidays } = require('../bot/getHolidays');
 
 const getEventos = async( req, res = response ) => {
 
@@ -123,9 +124,22 @@ const eliminarEvento = async( req, res = response ) => {
 }
 
 
+const obtenerFeriados = async( req, res = response ) => {
+
+    const feriados = await getHolidays();
+
+    console.log(feriados);
+
+    res.json({
+        ok: true,
+        feriados
+    });
+}
+
 module.exports = {
     getEventos,
     crearEvento,
     actualizarEvento,
-    eliminarEvento
+    eliminarEvento,
+    obtenerFeriados
 }
