@@ -10,7 +10,6 @@ const obtenerFeriados = async( req, res = response ) => {
         const feriadosBD = await Feriados.findOne({ año });
         if(!feriadosBD) {
             const feriados = new Feriados( req.body );
-            console.log(feriados);
             const peticion = await getHolidays(año);
             if(peticion.error !== ''){
                 return res.status(400).json({
@@ -20,7 +19,6 @@ const obtenerFeriados = async( req, res = response ) => {
             } else {
                 feriados.año = año;
                 feriados.feriados_ar = peticion.allHolidays
-                console.log(feriados)
                 const eventoGuardado = await feriados.save();
                 return res.status(201).json({
                     ok: true,

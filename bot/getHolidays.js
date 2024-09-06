@@ -83,7 +83,6 @@ async function getHolidays(year) {
         function getWeekends(year) {
             let weekends = [];
             let date = new Date(year, 0, 1); // Empieza el 1 de enero del año dado
-            console.log(date)
             // Recorre cada día del año
             while (date.getFullYear() == year) {
             // Si es sábado (6) o domingo (0)
